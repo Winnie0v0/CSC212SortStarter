@@ -1,7 +1,6 @@
 package edu.smith.cs.csc212.sorts;
 
 import me.jjfoley.adt.ListADT;
-import me.jjfoley.adt.errors.TODOErr;
 import me.jjfoley.adt.impl.JavaList;
 
 public class SlowSorts {
@@ -13,7 +12,12 @@ public class SlowSorts {
 	 * @return true if they are sorted, false if not.
 	 */
 	public static boolean isSorted(ListADT<Integer> data) {
-		throw new TODOErr();
+		for (int i=0; i< data.size()-1; i++) {
+			if (data.getIndex(i) > data.getIndex(i+1)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 
@@ -25,7 +29,13 @@ public class SlowSorts {
 	 * @param target - the sorted list to modify (might be empty!)
 	 */
 	public static void insertSorted(int x, ListADT<Integer> target) {
-		throw new TODOErr();
+		for (int i=0; i< target.size(); i++) {
+			if (x <= target.getIndex(i)) {
+				target.addIndex(i, x);
+				return;
+			}
+		}
+		target.addBack(x);
 	}
 
 	/**
@@ -38,8 +48,13 @@ public class SlowSorts {
 	 */
 	public static int findMinPosition(ListADT<Integer> list, int start) {
 		assert (start < list.size()) : "There should be stuff in the list to the right of start!";
-
-		throw new TODOErr();
+		int current = start;
+		for (int i = start; i < list.size(); i++) {
+			if (list.getIndex(i) < list.getIndex(current)) {
+				current = i;
+			}	
+		}
+		return current;
 	}
 
 	/**
@@ -51,7 +66,11 @@ public class SlowSorts {
 	 */
 	public static ListADT<Integer> insertionSort(ListADT<Integer> input) {
 		ListADT<Integer> output = new JavaList<>();
-		throw new TODOErr();
+		for (int a: input) {
+			insertSorted(a, output);
+		}
+		return output;
+			
 	}
 
 	/**
@@ -65,7 +84,9 @@ public class SlowSorts {
 	 *              in-place.
 	 */
 	public static void selectionSort(ListADT<Integer> fixMe) {
-		throw new TODOErr();
+		for (int start = 0; start < fixMe.size(); start ++) {
+			fixMe.swap(start, findMinPosition(fixMe, start));
+		}
 	}
 
 }

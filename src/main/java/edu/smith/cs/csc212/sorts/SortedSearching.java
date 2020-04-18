@@ -1,8 +1,6 @@
 package edu.smith.cs.csc212.sorts;
 
 import me.jjfoley.adt.ListADT;
-import me.jjfoley.adt.errors.TODOErr;
-import me.jjfoley.adt.impl.JavaList;
 
 /**
  * A demonstration class for showing why we would want to sort values.
@@ -39,7 +37,23 @@ public class SortedSearching {
 	 * @return -1 if not found or the position if found.
 	 */
 	public static int binarySearchIterative(int findMe, ListADT<Integer> dataset) {
-		throw new TODOErr();
+		int begin = 0;
+		while (dataset.size() != 1) {
+			if (findMe == dataset.getIndex(dataset.size()/2)){
+				return begin + dataset.size()/2;
+			}
+			else if (findMe == dataset.getIndex(dataset.size()/2-1)) {
+				return begin + dataset.size()/2-1;
+			}
+			else if (findMe > dataset.getIndex(dataset.size()/2)) {
+				begin = begin + dataset.size()/2;
+				dataset = dataset.slice(dataset.size()/2, dataset.size());
+			} 
+			else if (findMe < dataset.getIndex(dataset.size()/2)){
+				dataset = dataset.slice(0, dataset.size()/2);
+			}	
+		}
+		return -1;
 	}
 
 	/**
@@ -51,8 +65,20 @@ public class SortedSearching {
 	 * @param right - the farthest right index it could possibly be (default=dataset.size()).
 	 * @return -1 if not found, or the index of findMe in dataset.
 	 */
-	private static int binarySearchR(int findMe, ListADT<Integer> dataset, int left, int right) {
-		throw new TODOErr();
+	public static int binarySearchR (int findMe, ListADT<Integer> dataset, int left, int right) { 
+		int middle = (left+ right-1) / 2; 
+		if (findMe < dataset.getIndex(left) || findMe >dataset.getIndex(right-1) || left> right-1){ 
+			return -1; 
+		} 
+		if (findMe < dataset.getIndex(middle)) { 
+			return binarySearchR(findMe, dataset, left, middle);	
+		} 
+		else if (findMe > dataset.getIndex(middle)) {
+			return binarySearchR(findMe, dataset, middle + 1, right);
+		} 
+		else { 
+			return middle; 
+		}
 	}
 	
 	/**

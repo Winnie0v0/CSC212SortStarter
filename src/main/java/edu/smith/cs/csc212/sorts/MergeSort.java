@@ -1,7 +1,6 @@
 package edu.smith.cs.csc212.sorts;
 
 import me.jjfoley.adt.ListADT;
-import me.jjfoley.adt.errors.TODOErr;
 import me.jjfoley.adt.impl.JavaList;
 
 public class MergeSort {
@@ -14,7 +13,16 @@ public class MergeSort {
 	 */
 	public static ListADT<Integer> combineTwoSortedLists(ListADT<Integer> lhs, ListADT<Integer> rhs) {
 		ListADT<Integer> output = new JavaList<>();
-		throw new TODOErr();
+		while (lhs.size() != 0 && rhs.size() != 0){
+			if (lhs.getFront() <= rhs.getFront()) {
+				output.addBack(lhs.removeFront());
+			} else {
+				output.addBack(rhs.removeFront());
+			}
+		}
+		output.addAll(lhs);
+		output.addAll(rhs);
+		return output;
 	}
 	
 	/**
@@ -25,7 +33,14 @@ public class MergeSort {
 	 * @return a new list containing the sorted output.
 	 */
 	public static ListADT<Integer> doMergeSortRecursively(ListADT<Integer> input) {
-		throw new TODOErr();
+		if (input.size() == 1) {
+			return input;
+		}
+		else {
+			ListADT<Integer> left = input.slice(0, input.size()/2);
+			ListADT<Integer> right = input.slice(input.size()/2, input.size());
+			return combineTwoSortedLists(doMergeSortRecursively(left), doMergeSortRecursively(right));
+		}
 	}
 	
 	/**
@@ -36,6 +51,16 @@ public class MergeSort {
 	 * @return a new list containing the sorted output.
 	 */
 	public static ListADT<Integer> doMergeSortIteratively(ListADT<Integer> input) {
-		throw new TODOErr();
+		ListADT<ListADT<Integer>> all = new JavaList<>();
+		for (int a: input) {
+			ListADT<Integer> single = new JavaList<>();
+			single.addBack(a);
+			all.addBack(single);
+		}
+		while (all.size() != 1) {
+			all.addBack(combineTwoSortedLists(all.removeFront(),all.removeFront()));
+		}
+		return all.getFront();
+			
 	}
 }
